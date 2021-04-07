@@ -2,13 +2,27 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { HomeModule } from './features/home/home.module';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './features/home/home.component';
+
+const routes: Routes = [
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent },
+  {
+    path: 'summary',
+    loadChildren: () => import('./features/summary-breakdown/summary-breakdown.module').then((m) => m.SummaryBreakdownModule),
+  }
+]
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    RouterModule.forRoot(routes),
+    HomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
