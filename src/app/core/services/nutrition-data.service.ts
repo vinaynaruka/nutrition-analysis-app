@@ -14,8 +14,8 @@ export class NutritionDataService {
   nutritionData: INutritionResponse;
   constructor(private http: HttpClient) {}
 
-  getNutritionDetails(reqData: INutritionDetailsRequest): Observable<any> {
-    return this.http.post<any>(`${BASE_URL}${NUTRITION_DETAILS}?app_id=${APP_ID}&app_key=${APP_KEY}`, reqData).pipe(
+  getNutritionDetails(reqData: INutritionDetailsRequest): Observable<INutritionResponse> {
+    return this.http.post<INutritionResponse>(`${BASE_URL}${NUTRITION_DETAILS}?app_id=${APP_ID}&app_key=${APP_KEY}`, reqData).pipe(
       tap(data => this.nutritionData = data),
       catchError((err) => throwError(err))
     );
