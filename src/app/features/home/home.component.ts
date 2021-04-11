@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { INutritionDetailsRequest, INutritionResponse } from 'src/app/core/models';
+import { NutritionDataService } from 'src/app/core/services/nutrition-data.service';
 
 @Component({
   selector: 'app-home',
@@ -8,21 +10,45 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  receipeData: INutritionDetailsRequest = {
+    title: 'Fruit Salad',
+    prep: '10 mins',
+    yield: '10 servings',
+    ingr: []
+  }
+
+  loading = false;
+
+  constructor(private router: Router, public dataService: NutritionDataService ) { }
+
+  ingredientsText: string = `1 pint strawberries - cleaned, hulled and sliced
+  1 pound seedless grapes, halved
+  3 kiwis, peeled and sliced
+  3 bananas, sliced
+  1 (21 ounce) can peach pie filling`;
+
+  submitted = false;
 
   ngOnInit(): void {
   }
 
-  ingredientsText: string = `1 cup onion
-  2 cup tomato
-  3 tablespoon oil`;
-  ingredientsArray: string[] = [];
-
   save() {
-    console.log('saved = '+ this.ingredientsText);
-    this.ingredientsArray = this.ingredientsText?.split(/\r\n|\n\r|\n|\r/).map(line => line.trim());
-    console.log(this.ingredientsArray);
-    this.ingredientsArray.forEach(line => console.log(line))
+    this.submitted = true;
+    this.ingredientsText = this.ingredientsText?.trim();
+    console.log('text = '+ this.ingredientsText);
+    if (this.ingredientsText?.length) {
+      this.receipeData.ingr = this.ingredientsText?.split(/\r\n|\n\r|\n|\r/).map(line => line.trim()) || [];
+      this.loading = true;
+      this.dataService.getNutritionDetails(this.receipeData).subscribe(data => {
+        this.loading = false;
+        console.log(data);
+        this.submitted = false;
+      },
+      error => {
+        this.loading = false;
+        alert('Error occurred. Please try Again!');
+      })
+    }
   }
 
   viewSummary() {

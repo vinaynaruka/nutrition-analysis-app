@@ -1,5 +1,5 @@
 <!-- Header -->
-<header class="bg-success py-4 mb-3">
+<header class="bg-success py-3 mb-3">
   <div class="container h-100">
     <div class="row h-100 align-items-center">
       <div class="col-lg-12">
@@ -13,28 +13,42 @@
 <div class="container">
   <div class="row">
     <div class="col-md-8 mb-5">
-      <h2>Summary Breakdown</h2>
-      <hr>
-      <div class="content" style="height: 330px;"></div>
+      <div class="content">
+        <div class="demo-result-label">
+          <div class="col-12">
+            <section class="performance-facts" id="performance-facts">
+              <div class="performance-facts__header">
+                <h1 class="performance-facts__title">Nutrition Facts</h1>
+                <p><span id="lnumser">0</span> servings per container</p>
+              </div>
+              <table class="performance-facts__table">
+                <thead>
+                  <tr>
+                    <th colspan="3" class="amps">Amount Per Serving</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th colspan="2" id="lkcal-val-cal"><b>Calories</b></th>
+                    <td class="nob">{{dataService.nutritionData?.calories}}</td>
+                  </tr>
+                  <tr class="thick-row">
+                    <td colspan="3" class="small-info"><b>% Daily Value*</b></td>
+                  </tr>
+                  <tr *ngFor="let item of dataService.nutritionData?.totalNutrients | keyvalue">
+                    <th colspan="2"><b>{{item.value?.label}}</b> {{item.value?.quantity | number:'1.0-2'}} {{item.value?.unit}}</th>
+                    <td><b>{{dataService.nutritionData?.totalDaily[item.key]?.quantity | number:'1.0-2'}} %</b></td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="small-info" id="small-nutrition-info">*Percent Daily Values are based on a 2000 calorie diet</p>
+            </section>
+          </div>
+        </div>
+
+      </div>
       <button class="btn btn-success btn-lg" (click)="backToHome()">Back to home</button>
     </div>
-    <!-- <div class="col-md-4 mb-5">
-      <h2>Contact Us</h2>
-      <hr>
-      <address>
-        <strong>Start Bootstrap</strong>
-        <br>3481 Melrose Place
-        <br>Beverly Hills, CA 90210
-        <br>
-      </address>
-      <address>
-        <abbr title="Phone">P:</abbr>
-        (123) 456-7890
-        <br>
-        <abbr title="Email">E:</abbr>
-        <a href="mailto:#">name@example.com</a>
-      </address>
-    </div> -->
   </div>
   <!-- /.row -->
 </div>

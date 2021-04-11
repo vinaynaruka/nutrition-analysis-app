@@ -1,10 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HomeModule } from './features/home/home.module';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
+import { CoreModule } from './core/core.module';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -22,7 +24,9 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
-    HomeModule
+    HomeModule,
+    CoreModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
